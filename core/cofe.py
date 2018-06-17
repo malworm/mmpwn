@@ -47,21 +47,21 @@ class Cofe:
                 if userInput.lower() == "y":
                     self.url == r.headers['location']
                 else:
-                    print("[+] Redirection found and not followed !")
+                    print("[+] Redirection found and not followed ! \n")
                     exit()
         except Exception as e:
             print(e)
-            print("[-] Critical website is down !")
+            print("[-] Critical website is down ! \n")
             exit()
 
     def IsRobots(self):
         r = requests.get(self.url + "robots.txt", headers={"User-Agent":self.agent}, verify=False)
         if "200" in str(r) and not "404" in r.text:
-            print("[+] Print robots txt avaliable under {}".format(self.url + "robots.txt"))
+            print("[+] Print robots txt avaliable under {} \n".format(self.url + "robots.txt"))
             lines = r.text.split('\n')
             for l in lines:
                 if "Dissalow" in l:
-                    print("[-] \t /interesting entry files in robots.txt !")
+                    print("[-] \t /interesting entry files in robots.txt ! \n")
     
     def ToString(self):
         print("=== MMPwN ===")
@@ -73,6 +73,23 @@ class Cofe:
         r = requests.get(self.url+"dwr/", headers={"User-Agent":self.agent}, verify=False)
         if "200" in str(r) and not "404" in r.text:
             print("[+] Critical! Find DWR PATH ==> {}".format(self.url+"dwr"))
+    
+
+
+    def SearchDWRScripts(self):
+        with open('database/dwr-scripts-paths.txt', 'r') as f:
+            for line in f.readlines():
+                requestUrl = self.url+line.rstrip()
+                try:
+                    r = requests.get(requestUrl, headers={"User-Agent":self.agent}, verify=False, timeout=5)
+                    if "200" in str(r) and not "404" in r.text:
+                        print("[+] Found DWR SCRIPTS: {}".format(self.url+line))
+                except Exception as e:
+                    print("[-] Timeout reached ! / maybe a WAF dropping malicious requests.. \n")
+                    continue
+                
+
+
     
     def GetAdminLogin(self):
         r = requests.get(self.url+"admin/admin.login.action", headers={"User-Agent":self.agent}, verify=False)

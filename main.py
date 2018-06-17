@@ -28,3 +28,4 @@ if __name__ == '__main__':
         mmObj.IsRobots()
         mmObj.HaveDWR()
         mmObj.GetAdminLogin()
+        mmObj.SearchDWRScripts()
