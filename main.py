@@ -3,14 +3,14 @@
 
 
 from core.cofe import *
-from txtAndColors import banner
+from txtAndColors import banner, critical
 import requests
 import argparse
 import urllib3
 
 
 if __name__ == '__main__':
-    print(banner())
+    print(critical(banner()))
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", action="store", dest="url", help="MMPublish URL")
     parser.add_argument("--threads", action="store", dest="max_threads", default=1, help="Number of threads to use")
