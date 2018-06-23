@@ -29,3 +29,5 @@ if __name__ == '__main__':
         mmObj.HaveDWR()
         mmObj.GetAdminLogin()
         mmObj.SearchDWRScripts()
+        mmObj.XptGetUsers()
+        mmObj.XptGetURemainder()
